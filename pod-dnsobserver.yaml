@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dns-observer
+spec:
+  containers:
+  - name: dns-observer
+    image: gcr.io/zihongz-kubernetes-codelab/dns-observer:0.1
+    command: ["sleep", "3600"]
+    # args: ["sleep 3600"]
+    imagePullPolicy: Always
+  restartPolicy: Never
