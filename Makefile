@@ -1,6 +1,6 @@
 OUT_DIR = build
 IMAGE = gcr.io/zihongz-kubernetes-codelab/dns-observer
-TAG = 0.1
+TAG = 0.2
 
 # Rules for building the real image for deployment to gcr.io
 
