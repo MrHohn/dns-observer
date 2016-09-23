@@ -1,0 +1,18 @@
+{
+	"ImportPath": "github.com/MrHohn/dns-observer",
+	"GoVersion": "go1.6",
+	"GodepVersion": "v74",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/miekg/dns",
+			"Rev": "db96a2b759cdef4f11a34506a42eb8d1290c598e"
+		},
+		{
+			"ImportPath": "github.com/spf13/pflag",
+			"Rev": "08b1a584251b5b62f458943640fc8ebd4d50aaa5"
+		}
+	]
+}

@@ -1,1 +1,5 @@
-build
+/bin
+/.go
+/.push-*
+/.container-*
+/.dockerfile-*
