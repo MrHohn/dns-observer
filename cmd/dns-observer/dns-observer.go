@@ -10,12 +10,13 @@ import (
 )
 
 var (
-	target   = flag.String("target", "kubernetes.default.svc.cluster.local", "Target for dns name resolution.")
-	server   = flag.String("server", "10.0.0.10", "Dns server ip address.")
-	period   = flag.Int("period", 250, "The period, in milliseconds, to execute a dns name resolution.")
-	port     = flag.Int("port", 53, "Port number of the dns server.")
-	protocol = flag.String("protocol", "udp", "Protocol to use (udp ot tcp), default to udp")
-	exit     = flag.Bool("exit", false, "Exit when fail.")
+	target     = flag.String("target", "kubernetes.default.svc.cluster.local", "Target for dns name resolution.")
+	server     = flag.String("server", "10.0.0.10", "Dns server ip address.")
+	period     = flag.Int("period", 250, "The period, in milliseconds, to execute a dns name resolution.")
+	port       = flag.Int("port", 53, "Port number of the dns server.")
+	protocol   = flag.String("protocol", "udp", "Protocol to use (udp ot tcp), default to udp")
+	exit       = flag.Bool("exit", false, "Exit when fail.")
+	sameClient = flag.Bool("sameClient", false, "Use the same client for all DNS requests.")
 )
 
 func main() {
@@ -25,8 +26,14 @@ func main() {
 	ticker := time.Tick(time.Duration(*period) * time.Millisecond)
 	stopCh := make(chan struct{})
 
+	var client dns.Client
+	if *sameClient {
+		client = dns.Client{Net: *protocol}
+	}
 	for {
-		client := dns.Client{Net: *protocol}
+		if !*sameClient {
+			client = dns.Client{Net: *protocol}
+		}
 		msg := dns.Msg{}
 		msg.SetQuestion(*target+".", dns.TypeA)
 
@@ -48,10 +55,10 @@ func main() {
 				}
 				continue
 			}
-			// for _, ans := range r.Answer {
-			// 	Arecord := ans.(*dns.A)
-			// 	log.Printf("%s", Arecord.A)
-			// }
+			for _, ans := range r.Answer {
+				Arecord := ans.(*dns.A)
+				log.Printf("%s", Arecord.A)
+			}
 		case <-stopCh:
 			return
 		}

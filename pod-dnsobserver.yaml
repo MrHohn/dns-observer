@@ -5,8 +5,8 @@ metadata:
 spec:
   containers:
   - name: dns-observer
-    image: gcr.io/zihongz-kubernetes-codelab/dns-observer-amd64:0.3
+    image: gcr.io/zihongz-k8s-dev/dns-observer-amd64:0.3.1
     command: ["sh", "-c"]
-    args: ["while true ; do sleep 3600 ; done"]
+    args: ["while true ; do sleep 10 ; done"]
     imagePullPolicy: Always
   restartPolicy: Never

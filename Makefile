@@ -19,7 +19,7 @@ BIN := dns-observer
 PKG := github.com/MrHohn/dns-observer
 
 # Where to push the docker image.
-REGISTRY ?= gcr.io/zihongz-kubernetes-codelab
+REGISTRY ?= gcr.io/zihongz-k8s-dev
 
 # Which architecture to build - see $(ALL_ARCH) for options.
 ARCH ?= amd64
@@ -50,7 +50,8 @@ IMAGE := $(REGISTRY)/$(BIN)-$(ARCH)
 
 BUILD_IMAGE ?= golang:1.7-alpine
 
-VERSION := $(shell git describe --always --dirty)
+# VERSION := $(shell git describe --always --dirty)
+VERSION := 0.4.0
 
 # If you want to build all binaries, see the 'all-build' rule.
 # If you want to build all containers, see the 'all-container' rule.
@@ -110,7 +111,7 @@ container-name:
 
 push: .push-$(DOTFILE_IMAGE) push-name
 .push-$(DOTFILE_IMAGE): .container-$(DOTFILE_IMAGE)
-	@gcloud docker push $(IMAGE):$(VERSION)
+	@gcloud docker -- push $(IMAGE):$(VERSION)
 	@docker images -q $(IMAGE):$(VERSION) > $@
 
 push-name:
